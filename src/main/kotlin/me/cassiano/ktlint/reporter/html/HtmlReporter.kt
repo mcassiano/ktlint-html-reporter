@@ -10,15 +10,12 @@ class HtmlReporter(private val out: PrintStream) : Reporter {
     private val acc = ConcurrentHashMap<String, MutableList<LintError>>()
 
     override fun onLintError(file: String, err: LintError, corrected: Boolean) {
-
         if (!corrected) {
             acc.getOrPut(file) { mutableListOf() }.add(err)
         }
-
     }
 
     override fun afterAll() {
-
         html {
             head {
                 cssLink("https://fonts.googleapis.com/css?family=Source+Code+Pro")
@@ -42,7 +39,6 @@ class HtmlReporter(private val out: PrintStream) : Reporter {
                 }
             }
         }
-
     }
 
     private fun html(body: () -> Unit) {
@@ -90,5 +86,4 @@ class HtmlReporter(private val out: PrintStream) : Reporter {
         out.print(link)
         out.println("\" rel=\"stylesheet\" />")
     }
-
 }

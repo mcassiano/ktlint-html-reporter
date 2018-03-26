@@ -35,9 +35,9 @@ artifacts {
 }
 
 dependencies {
-    def ktlint_version = '0.19.0'
+    def ktlint_version = '0.20.0'
     //noinspection DifferentStdlibGradleVersion
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compileOnly "com.github.shyiko.ktlint:ktlint-core:$ktlint_version"
     testCompile "com.github.shyiko.ktlint:ktlint-core:$ktlint_version"
 }
