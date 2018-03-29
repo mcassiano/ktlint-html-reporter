@@ -1,50 +1,89 @@
 buildscript {
-    ext.kotlin_version = '1.2.21'
-
+    ext.kotlinVersion = '1.2.30'
+    ext.ktlintVersion = '0.20.0'
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        //noinspection DifferentKotlinGradleVersion
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
-group 'me.cassiano'
-version '0.0.1'
-
-apply plugin: 'kotlin'
-
-repositories {
-    jcenter()
+plugins {
+    id "com.jfrog.bintray" version "1.8.0"
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'maven-publish'
+
+group 'me.cassiano'
+version '0.1.0'
+sourceCompatibility = 1.6
+
+final ciBuild = System.hasProperty('ci')
+final localProps = new Properties()
+localProps.load(file('local.properties').newDataInputStream())
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compileOnly "com.github.shyiko.ktlint:ktlint-core:$ktlintVersion"
+    testCompile "com.github.shyiko.ktlint:ktlint-core:$ktlintVersion"
+    testCompile 'junit:junit:4.12'
+}
+
+bintray {
+
+    if (ciBuild) {
+        user = System.getenv('bintrayUser')
+        key = System.getenv('bintrayKey')
+    } else {
+        user = localProps.getProperty('bintrayUser')
+        key = localProps.getProperty('bintrayKey')
+    }
+
+    publications = ['mavenJava']
+
+    pkg {
+        repo = 'maven'
+        name = 'ktlint-html-reporter'
+
+        version {
+            name = project.version
+            released = new Date()
+            vcsTag = "v${project.version}"
+        }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: project.classes) {
     from sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+task javadocJar(type: Jar, dependsOn: project.javadoc) {
     from javadoc.destinationDir
 }
 
 artifacts {
-    archives sourcesJar
-    archives javadocJar
+    archives sourcesJar, javadocJar
 }
 
-dependencies {
-    def ktlint_version = '0.20.0'
-    //noinspection DifferentStdlibGradleVersion
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compileOnly "com.github.shyiko.ktlint:ktlint-core:$ktlint_version"
-    testCompile "com.github.shyiko.ktlint:ktlint-core:$ktlint_version"
-}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId project.bintray.pkg.name
+            from components.java
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+            artifact sourcesJar {
+                classifier = 'sources'
+            }
+            artifact javadocJar {
+                classifier = 'javadoc'
+            }
+        }
+    }
 }
