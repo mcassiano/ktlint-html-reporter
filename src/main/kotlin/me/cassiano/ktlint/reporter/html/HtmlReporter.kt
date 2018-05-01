@@ -29,12 +29,18 @@ class HtmlReporter(private val out: PrintStream) : Reporter {
                 text("</style>\n")
             }
             body {
-                acc.forEach { file: String, errors: MutableList<LintError> ->
-                    h3 { text(file) }
-                    ul {
-                        errors.forEach { (line, col, ruleId, detail) ->
-                            item("($line, $col): $detail  ($ruleId)")
+                if (!acc.isEmpty()) {
+                    acc.forEach { file: String, errors: MutableList<LintError> ->
+                        h3 { text(file) }
+                        ul {
+                            errors.forEach { (line, col, ruleId, detail) ->
+                                item("($line, $col): $detail  ($ruleId)")
+                            }
                         }
+                    }
+                } else {
+                    paragraph {
+                        text("Congratulations, no issues found!")
                     }
                 }
             }
@@ -85,5 +91,11 @@ class HtmlReporter(private val out: PrintStream) : Reporter {
         out.print("<link href=\"")
         out.print(link)
         out.println("\" rel=\"stylesheet\" />")
+    }
+
+    private fun paragraph(body: () -> Unit) {
+        out.print("<p>")
+        body()
+        out.print("</p>")
     }
 }
