@@ -27,7 +27,8 @@ h3 {
 }</style>
 </head>
 <body>
-<p>Congratulations, no issues found!</p></body>
+<p>Congratulations, no issues found!</p>
+</body>
 </html>
 """.trimStart().replace("\n", System.lineSeparator())
 
@@ -60,6 +61,9 @@ h3 {
 }</style>
 </head>
 <body>
+<h1>Overview</h1>
+<p>Issues found: 1</p>
+<p>Issues corrected: 0</p>
 <h3>/file1.kt</h3>
 <ul>
 <li>(1, 1): rule-1 broken  (rule-1)</li>
@@ -103,6 +107,9 @@ h3 {
 }</style>
 </head>
 <body>
+<h1>Overview</h1>
+<p>Issues found: 1</p>
+<p>Issues corrected: 1</p>
 <h3>/file1.kt</h3>
 <ul>
 <li>(1, 1): rule-1 broken  (rule-1)</li>

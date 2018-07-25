@@ -8,10 +8,15 @@ import java.util.concurrent.ConcurrentHashMap
 class HtmlReporter(private val out: PrintStream) : Reporter {
 
     private val acc = ConcurrentHashMap<String, MutableList<LintError>>()
+    private var issueCount = 0
+    private var correctedCount = 0
 
     override fun onLintError(file: String, err: LintError, corrected: Boolean) {
         if (!corrected) {
+            issueCount += 1
             acc.getOrPut(file) { mutableListOf() }.add(err)
+        } else {
+            correctedCount += 1
         }
     }
 
@@ -30,6 +35,17 @@ class HtmlReporter(private val out: PrintStream) : Reporter {
             }
             body {
                 if (!acc.isEmpty()) {
+
+                    h1 { text("Overview") }
+
+                    paragraph {
+                        text("Issues found: $issueCount")
+                    }
+
+                    paragraph {
+                        text("Issues corrected: $correctedCount")
+                    }
+
                     acc.forEach { file: String, errors: MutableList<LintError> ->
                         h3 { text(file) }
                         ul {
@@ -65,6 +81,12 @@ class HtmlReporter(private val out: PrintStream) : Reporter {
         out.println("</body>")
     }
 
+    private fun h1(body: () -> Unit) {
+        out.print("<h1>")
+        body()
+        out.println("</h1>")
+    }
+
     private fun h3(body: () -> Unit) {
         out.print("<h3>")
         body()
@@ -96,6 +118,6 @@ class HtmlReporter(private val out: PrintStream) : Reporter {
     private fun paragraph(body: () -> Unit) {
         out.print("<p>")
         body()
-        out.print("</p>")
+        out.println("</p>")
     }
 }
