@@ -1,6 +1,6 @@
 package me.cassiano.ktlint.reporter.html
 
-import com.github.shyiko.ktlint.core.LintError
+import com.pinterest.ktlint.core.LintError
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.ByteArrayOutputStream
