@@ -1,6 +1,6 @@
 # ktlint HTML Reporter
 
-This is a simple HTML reporter for [ktlint](https://github.com/shyiko/ktlint). I wrote it while setting up quality tools for [Yosef](https://github.com/concretesolutions/yosef-android).
+This is a simple HTML reporter for [ktlint](https://github.com/pinterest/ktlint). I wrote it while setting up quality tools for [Yosef](https://github.com/concretesolutions/yosef-android).
 
 ### Usage:
 

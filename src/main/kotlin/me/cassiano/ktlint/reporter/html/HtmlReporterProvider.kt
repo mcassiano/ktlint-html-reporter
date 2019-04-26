@@ -1,7 +1,7 @@
 package me.cassiano.ktlint.reporter.html
 
-import com.github.shyiko.ktlint.core.Reporter
-import com.github.shyiko.ktlint.core.ReporterProvider
+import com.pinterest.ktlint.core.Reporter
+import com.pinterest.ktlint.core.ReporterProvider
 import java.io.PrintStream
 
 class HtmlReporterProvider : ReporterProvider {

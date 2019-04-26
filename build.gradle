@@ -1,6 +1,6 @@
 buildscript {
-    ext.kotlinVersion = '1.2.30'
-    ext.ktlintVersion = '0.20.0'
+    ext.kotlinVersion = '1.3.30'
+    ext.ktlintVersion = '0.32.0'
     ext.junitVersion = '4.12'
     repositories {
         mavenCentral()
@@ -34,8 +34,8 @@ repositories {
 
 dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    compileOnly "com.github.shyiko.ktlint:ktlint-core:$ktlintVersion"
-    testCompile "com.github.shyiko.ktlint:ktlint-core:$ktlintVersion"
+    compileOnly "com.pinterest.ktlint:ktlint-core:$ktlintVersion"
+    testCompile "com.pinterest.ktlint:ktlint-core:$ktlintVersion"
     testCompile "junit:junit:$junitVersion"
 }
 

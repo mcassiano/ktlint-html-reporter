@@ -1,7 +1,7 @@
 package me.cassiano.ktlint.reporter.html
 
-import com.github.shyiko.ktlint.core.LintError
-import com.github.shyiko.ktlint.core.Reporter
+import com.pinterest.ktlint.core.LintError
+import com.pinterest.ktlint.core.Reporter
 import java.io.PrintStream
 import java.util.concurrent.ConcurrentHashMap
 
