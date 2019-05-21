@@ -21,7 +21,7 @@ apply plugin: 'kotlin'
 apply plugin: 'maven-publish'
 
 group 'me.cassiano'
-version '0.2.1'
+version '0.2.3'
 sourceCompatibility = 1.6
 
 final ciBuild = System.hasProperty('ci')
